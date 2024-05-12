@@ -63,10 +63,10 @@ add_library(
    )
 
 if( DLT_TRACE )
-   target_link_libraries( ${PROJECT_TARGET_NAME} dlt )
+   target_link_libraries( ${PROJECT_TARGET_NAME} PUBLIC dlt )
 endif( )
 if( ${OS_TARGET} EQUAL ${OS_ANDROID} )
-   target_link_libraries( ${PROJECT_TARGET_NAME} log )
+   target_link_libraries( ${PROJECT_TARGET_NAME} PUBLIC log )
 endif( )
 
 add_custom_target( "${PROJECT_TARGET_NAME}_documentation" ALL
