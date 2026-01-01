@@ -1,0 +1,13 @@
+#pragma once
+
+
+
+#ifndef CARPC_TRACE_ENABLE
+   #define CARPC_TRACE_ENABLE 1
+#endif
+
+#define CARPC_MESSAGE_LENGTH 256
+
+#define CARPC_RING_BUFFER_SIZE ( 1024 * 100 )
+
+#define CARPC_EVENT_POOL_SIZE ( 1024 * 100 )
