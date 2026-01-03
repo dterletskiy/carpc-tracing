@@ -10,7 +10,7 @@ using namespace carpc::trace;
 
 
 RingBufferMutex::RingBufferMutex( size_t capacity )
-   : m_capacity( capacity )
+   : IRingBuffer( capacity )
 {
    CARPC_TRACE_DEBUG( );
    m_buffer = new const Event* [ m_capacity ];

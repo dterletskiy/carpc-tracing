@@ -10,7 +10,7 @@ using namespace carpc::trace;
 
 
 RingBufferMPMC::RingBufferMPMC( size_t capacity )
-   : m_capacity( capacity )
+   : IRingBuffer( capacity )
    , m_buffer( new Cell[ capacity ] )
    , m_head( 0 )
    , m_tail( 0 )

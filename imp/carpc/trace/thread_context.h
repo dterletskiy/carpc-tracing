@@ -16,7 +16,7 @@ namespace carpc::trace
 
       static ThreadContext& current( );
 
-      RingBuffer      buffer;
+      RingBuffer           buffer;
       std::atomic< bool >  alive{ true };
    };
 
