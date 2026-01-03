@@ -70,10 +70,14 @@ void TraceRuntime::stop( )
 
 void TraceRuntime::emit( const TraceEvent* event )
 {
-   CARPC_TRACE_DEBUG( "-> runtime emit: %s", event->message( ) );
+   CARPC_TRACE_DEBUG( "-> runtime try emit: %s", event->message( ) );
+   if( not s_running.load( std::memory_order_acquire ) )
+      return;
+
    if( event->level( ) < s_min_level )
       return;
 
+   CARPC_TRACE_DEBUG( "-> runtime emit: %s", event->message( ) );
    TraceThreadContext::current( ).buffer.push( event ); // SPSC, lock-free
    {
       s_futex.wake( );
@@ -83,6 +87,9 @@ void TraceRuntime::emit( const TraceEvent* event )
 
 TraceEvent* TraceRuntime::acquire_event( )
 {
+   if( not s_running.load( std::memory_order_acquire ) )
+      return nullptr;
+
    return s_trace_event_pool.acquire( );
 }
 

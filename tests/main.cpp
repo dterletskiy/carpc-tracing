@@ -16,7 +16,6 @@ bool test_runtime( )
 {
    StdoutSink sink;
    // BinaryFileSink sink( "trace.log" );
-
    TraceRuntime::start( &sink );
 
    constexpr int num_threads = 10;
