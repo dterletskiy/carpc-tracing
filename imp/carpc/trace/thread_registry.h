@@ -8,15 +8,15 @@
 namespace carpc::trace
 {
 
-   class TraceThreadContext;
+   class ThreadContext;
 
-   class TraceThreadRegistry
+   class ThreadRegistry
    {
       public:
-         using CONTEXTS = std::vector< TraceThreadContext* >;
+         using CONTEXTS = std::vector< ThreadContext* >;
 
       public:
-         static TraceThreadContext* create_context( );
+         static ThreadContext* create_context( );
          static const CONTEXTS contexts( );
 
       private:

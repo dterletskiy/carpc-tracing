@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "trace_event_pool.h"
+#include "event_pool.h"
 
-#include "carpc/trace/trace_debug.h"
+#include "carpc/trace/debug.h"
 
 
 
@@ -10,10 +10,10 @@ using namespace carpc::trace;
 
 
 
-TraceEventPool::TraceEventPool( size_t capacity )
+EventPool::EventPool( size_t capacity )
    : m_capacity( capacity )
 {
-   mp_storage = new TraceEvent[ m_capacity ];
+   mp_storage = new Event[ m_capacity ];
    // mp_used = new bool[ m_capacity ]{ };
    mp_used = new std::atomic< bool >[ m_capacity ];
    for( size_t i = 0; i < m_capacity; ++i )
@@ -22,13 +22,13 @@ TraceEventPool::TraceEventPool( size_t capacity )
    }
 }
 
-TraceEventPool::~TraceEventPool( )
+EventPool::~EventPool( )
 {
    delete[] mp_storage;
    delete[] mp_used;
 }
 
-// TraceEvent* TraceEventPool::acquire( )
+// Event* EventPool::acquire( )
 // {
 //    for( size_t i = 0; i < m_capacity; ++i )
 //    {
@@ -47,7 +47,7 @@ TraceEventPool::~TraceEventPool( )
 //    return nullptr; // pool exhausted
 // }
 
-// void TraceEventPool::release( const TraceEvent* event )
+// void EventPool::release( const Event* event )
 // {
 //    const ptrdiff_t idx = event - mp_storage;
 
@@ -62,7 +62,7 @@ TraceEventPool::~TraceEventPool( )
 //    }
 // }
 
-TraceEvent* TraceEventPool::acquire( )
+Event* EventPool::acquire( )
 {
    const size_t head = m_head.load( std::memory_order_relaxed );
 
@@ -90,7 +90,7 @@ TraceEvent* TraceEventPool::acquire( )
    return nullptr;
 }
 
-void TraceEventPool::release( const TraceEvent* event )
+void EventPool::release( const Event* event )
 {
    const ptrdiff_t idx = event - mp_storage;
 

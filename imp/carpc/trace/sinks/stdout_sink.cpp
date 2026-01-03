@@ -7,7 +7,7 @@ using namespace carpc::trace;
 
 
 
-void StdoutSink::emit_priv( const TraceEvent* event )
+void StdoutSink::emit_priv( const Event* event )
 {
    char buffer[ CARPC_MESSAGE_LENGTH + 256 ];
 

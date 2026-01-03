@@ -1,7 +1,7 @@
 #include "carpc/trace/functions.h"
-#include "carpc/trace/trace_ring_buffer_mutex.h"
+#include "ring_buffer_mutex.h"
 
-#include "carpc/trace/trace_debug.h"
+#include "carpc/trace/debug.h"
 
 
 
@@ -9,20 +9,20 @@ using namespace carpc::trace;
 
 
 
-TraceRingBufferMutex::TraceRingBufferMutex( size_t capacity )
+RingBufferMutex::RingBufferMutex( size_t capacity )
    : m_capacity( capacity )
 {
    CARPC_TRACE_DEBUG( );
-   m_buffer = new const TraceEvent* [ m_capacity ];
+   m_buffer = new const Event* [ m_capacity ];
 }
 
-TraceRingBufferMutex::~TraceRingBufferMutex( )
+RingBufferMutex::~RingBufferMutex( )
 {
    CARPC_TRACE_DEBUG( );
    delete[] m_buffer;
 }
 
-bool TraceRingBufferMutex::push( const TraceEvent* event )
+bool RingBufferMutex::push( const Event* event )
 {
    CARPC_TRACE_DEBUG( "-> push: %p", event );
 
@@ -44,7 +44,7 @@ bool TraceRingBufferMutex::push( const TraceEvent* event )
    return true;
 }
 
-const TraceEvent* TraceRingBufferMutex::pop( )
+const Event* RingBufferMutex::pop( )
 {
    CARPC_TRACE_DEBUG( "-> pop" );
 
@@ -58,7 +58,7 @@ const TraceEvent* TraceRingBufferMutex::pop( )
    }
    ++m_pop.success;
 
-   const TraceEvent* event = m_buffer[ m_tail ];
+   const Event* event = m_buffer[ m_tail ];
    m_tail = ( m_tail + 1 ) % m_capacity;
 
    CARPC_TRACE_DEBUG( "<- poped: %p", event );

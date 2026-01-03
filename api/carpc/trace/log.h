@@ -2,18 +2,18 @@
 
 #include <cstdarg>
 
-#include "carpc/trace/trace_level.h"
+#include "carpc/trace/event.h"
 
 
 
 namespace carpc::trace
 {
 
-   class TraceLog
+   class Log
    {
       public:
-         TraceLog( ) = default;
-         ~TraceLog( ) = default;
+         Log( ) = default;
+         ~Log( ) = default;
 
          static void trace( const char* fmt, ... );
          static void debug( const char* fmt, ... );
@@ -22,8 +22,8 @@ namespace carpc::trace
          static void error( const char* fmt, ... );
          static void critical( const char* fmt, ... );
 
-         static void log( eTraceLevel level, const char* fmt, ... );
-         static void log( eTraceLevel level, const char* fmt, va_list args );
+         static void log( eLevel level, const char* fmt, ... );
+         static void log( eLevel level, const char* fmt, va_list args );
    };
 
 } // namespace carpc::trace

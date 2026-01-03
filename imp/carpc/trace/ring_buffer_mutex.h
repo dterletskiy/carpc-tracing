@@ -4,15 +4,15 @@
 #include <cstddef>
 #include <cstdio>
 
-#include "carpc/trace/trace_config.h"
-#include "carpc/trace/trace_event.h"
+#include "carpc/trace/config.h"
+#include "carpc/trace/event.h"
 
 
 
 namespace carpc::trace
 {
 
-   class TraceRingBufferMutex
+   class RingBufferMutex
    {
          struct Count
          {
@@ -21,15 +21,15 @@ namespace carpc::trace
          };
 
       public:
-         explicit TraceRingBufferMutex( size_t capacity = CARPC_RING_BUFFER_SIZE );
-         ~TraceRingBufferMutex( );
+         explicit RingBufferMutex( size_t capacity = CARPC_RING_BUFFER_SIZE );
+         ~RingBufferMutex( );
 
-         bool push( const TraceEvent* event );
-         const TraceEvent* pop( );
+         bool push( const Event* event );
+         const Event* pop( );
 
       private:
          size_t                  m_capacity;
-         const TraceEvent**      m_buffer;
+         const Event**           m_buffer;
 
          size_t                  m_head{ 0 };
          size_t                  m_tail{ 0 };

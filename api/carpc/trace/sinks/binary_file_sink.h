@@ -1,20 +1,20 @@
 #pragma once
 
-#include "carpc/trace/trace_sink.h"
+#include "carpc/trace/sink.h"
 
 
 
 namespace carpc::trace
 {
 
-   class BinaryFileSink final : public ITraceSink
+   class BinaryFileSink final : public ISink
    {
       public:
          BinaryFileSink( const char* path );
          ~BinaryFileSink( ) override;
 
       private:
-         void emit_priv( const TraceEvent* event ) override;
+         void emit_priv( const Event* event ) override;
 
       private:
          int         m_fd;

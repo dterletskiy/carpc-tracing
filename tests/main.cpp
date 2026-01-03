@@ -3,8 +3,6 @@
 #include <thread>
 
 #include "carpc/trace/trace.h"
-#include "carpc/trace/sinks/stdout_sink.h"
-#include "carpc/trace/sinks/binary_file_sink.h"
 
 
 
@@ -16,7 +14,7 @@ bool test_runtime( )
 {
    StdoutSink sink;
    // BinaryFileSink sink( "trace.log" );
-   TraceRuntime::start( &sink );
+   Runtime::start( &sink );
 
    constexpr int num_threads = 10;
    constexpr int events_per_thread = 1;
@@ -63,7 +61,7 @@ bool test_runtime( )
 
    std::this_thread::sleep_for( std::chrono::milliseconds(50) );
 
-   TraceRuntime::stop( );
+   Runtime::stop( );
 
    return true;
 }

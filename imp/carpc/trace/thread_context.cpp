@@ -1,7 +1,7 @@
-#include "trace_thread_registry.h"
-#include "trace_thread_context.h"
+#include "thread_registry.h"
+#include "thread_context.h"
 
-#include "carpc/trace/trace_debug.h"
+#include "carpc/trace/debug.h"
 
 
 
@@ -17,28 +17,28 @@ struct ThreadContextGuard
 
 
 
-thread_local TraceThreadContext* g_trace_tls_ctx = nullptr;
+thread_local ThreadContext* g_trace_tls_ctx = nullptr;
 thread_local ThreadContextGuard  g_trace_tls_guard;
 
 
 
-TraceThreadContext::TraceThreadContext( )
+ThreadContext::ThreadContext( )
 {
    CARPC_TRACE_DEBUG( );
 }
 
-TraceThreadContext::~TraceThreadContext( )
+ThreadContext::~ThreadContext( )
 {
    CARPC_TRACE_DEBUG( );
 }
 
-TraceThreadContext& TraceThreadContext::current( )
+ThreadContext& ThreadContext::current( )
 {
    CARPC_TRACE_DEBUG( );
    (void)g_trace_tls_guard;
    if( !g_trace_tls_ctx )
    {
-      g_trace_tls_ctx = TraceThreadRegistry::create_context( );
+      g_trace_tls_ctx = ThreadRegistry::create_context( );
    }
    return *g_trace_tls_ctx;
 }

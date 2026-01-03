@@ -1,7 +1,7 @@
 #include "carpc/trace/functions.h"
-#include "carpc/trace/trace_ring_buffer_spsc.h"
+#include "ring_buffer_spsc.h"
 
-#include "carpc/trace/trace_debug.h"
+#include "carpc/trace/debug.h"
 
 
 
@@ -9,20 +9,20 @@ using namespace carpc::trace;
 
 
 
-TraceRingBufferSPSC::TraceRingBufferSPSC( size_t capacity )
+RingBufferSPSC::RingBufferSPSC( size_t capacity )
    : m_capacity( capacity )
 {
    CARPC_TRACE_DEBUG( );
-   m_buffer = new const TraceEvent* [ m_capacity ];
+   m_buffer = new const Event* [ m_capacity ];
 }
 
-TraceRingBufferSPSC::~TraceRingBufferSPSC( )
+RingBufferSPSC::~RingBufferSPSC( )
 {
    CARPC_TRACE_DEBUG( );
    delete[] m_buffer;
 }
 
-bool TraceRingBufferSPSC::push( const TraceEvent* event )
+bool RingBufferSPSC::push( const Event* event )
 {
    CARPC_TRACE_DEBUG( "-> push: %p", event );
 
@@ -44,7 +44,7 @@ bool TraceRingBufferSPSC::push( const TraceEvent* event )
    return true;
 }
 
-const TraceEvent* TraceRingBufferSPSC::pop( )
+const Event* RingBufferSPSC::pop( )
 {
    CARPC_TRACE_DEBUG( "-> pop" );
 
@@ -58,7 +58,7 @@ const TraceEvent* TraceRingBufferSPSC::pop( )
    }
    ++m_pop.success;
 
-   const TraceEvent* event = m_buffer[ tail ];
+   const Event* event = m_buffer[ tail ];
    const size_t next = ( tail + 1 ) % m_capacity;
    m_tail.store( next, std::memory_order_release );
 

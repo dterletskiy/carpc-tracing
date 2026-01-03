@@ -4,15 +4,15 @@
 #include <cstddef>
 #include <cstdio>
 
-#include "carpc/trace/trace_config.h"
-#include "carpc/trace/trace_event.h"
+#include "carpc/trace/config.h"
+#include "carpc/trace/event.h"
 
 
 
 namespace carpc::trace
 {
 
-   class TraceRingBufferSPSC
+   class RingBufferSPSC
    {
          struct Count
          {
@@ -21,15 +21,15 @@ namespace carpc::trace
          };
 
       public:
-         explicit TraceRingBufferSPSC( size_t capacity = CARPC_RING_BUFFER_SIZE );
-         ~TraceRingBufferSPSC( );
+         explicit RingBufferSPSC( size_t capacity = CARPC_RING_BUFFER_SIZE );
+         ~RingBufferSPSC( );
 
-         bool push( const TraceEvent* event );
-         const TraceEvent* pop( );
+         bool push( const Event* event );
+         const Event* pop( );
 
       private:
          size_t                  m_capacity;
-         const TraceEvent**      m_buffer;
+         const Event**           m_buffer;
 
          std::atomic< size_t >   m_head{ 0 };
          std::atomic< size_t >   m_tail{ 0 };

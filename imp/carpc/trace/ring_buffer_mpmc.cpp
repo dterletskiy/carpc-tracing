@@ -1,7 +1,7 @@
 #include "carpc/trace/functions.h"
-#include "carpc/trace/trace_ring_buffer_mpmc.h"
+#include "ring_buffer_mpmc.h"
 
-#include "carpc/trace/trace_debug.h"
+#include "carpc/trace/debug.h"
 
 
 
@@ -9,7 +9,7 @@ using namespace carpc::trace;
 
 
 
-TraceRingBufferMPMC::TraceRingBufferMPMC( size_t capacity )
+RingBufferMPMC::RingBufferMPMC( size_t capacity )
    : m_capacity( capacity )
    , m_buffer( new Cell[ capacity ] )
    , m_head( 0 )
@@ -22,13 +22,13 @@ TraceRingBufferMPMC::TraceRingBufferMPMC( size_t capacity )
    }
 }
 
-TraceRingBufferMPMC::~TraceRingBufferMPMC( )
+RingBufferMPMC::~RingBufferMPMC( )
 {
    CARPC_TRACE_DEBUG( );
    delete[] m_buffer;
 }
 
-bool TraceRingBufferMPMC::push( const TraceEvent* event )
+bool RingBufferMPMC::push( const Event* event )
 {
    CARPC_TRACE_DEBUG( "-> push: %p", event );
 
@@ -68,7 +68,7 @@ bool TraceRingBufferMPMC::push( const TraceEvent* event )
    }
 }
 
-const TraceEvent* TraceRingBufferMPMC::pop( )
+const Event* RingBufferMPMC::pop( )
 {
    CARPC_TRACE_DEBUG( "-> pop" );
 
@@ -87,7 +87,7 @@ const TraceEvent* TraceRingBufferMPMC::pop( )
                pos + 1,
                std::memory_order_relaxed ) )
          {
-            const TraceEvent* event = cell.data;
+            const Event* event = cell.data;
             cell.sequence.store(
                pos + m_capacity,
                std::memory_order_release );

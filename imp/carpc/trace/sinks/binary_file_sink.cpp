@@ -71,7 +71,7 @@ BinaryFileSink::~BinaryFileSink( )
    ::close( m_fd );
 }
 
-void BinaryFileSink::emit_priv( const TraceEvent* event )
+void BinaryFileSink::emit_priv( const Event* event )
 {
    const uint16_t message_len =
       static_cast< uint16_t >( std::strlen( event->message( ) ) );

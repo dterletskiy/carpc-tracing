@@ -5,11 +5,11 @@
 namespace carpc::trace
 {
 
-   class TraceScope
+   class Scope
    {
       public:
-         explicit TraceScope( const char* message );
-         ~TraceScope( );
+         explicit Scope( const char* message );
+         ~Scope( );
 
       private:
          const char* m_message;
