@@ -39,9 +39,8 @@ struct EventRecord
    uint8_t   level;         // TraceLevel
    uint8_t   reserved;
 
-   uint32_t  thread_id;
+   uint64_t  thread_id;
    uint64_t  timestamp_ns;
-   uint64_t  flow_id;
 
    uint16_t  message_len;
    // char name[ message_len ]; // immediately after
