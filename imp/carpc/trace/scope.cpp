@@ -15,8 +15,8 @@ Scope::Scope( const char* message )
    Event* event = Runtime::acquire_event( );
    if(event == nullptr)
       return;
-   event->timestamp_ns( functions::now_ns( ) );
-   event->thread_id( functions::tid( ) );
+   event->timestamp_ns( carpc::trace::utils::now_ns( ) );
+   event->thread_id( carpc::trace::utils::tid( ) );
    event->phase( ePhase::Begin );
    event->message( m_message );
 
@@ -28,8 +28,8 @@ Scope::~Scope( )
    Event* event = Runtime::acquire_event( );
    if(event == nullptr)
       return;
-   event->timestamp_ns( functions::now_ns( ) );
-   event->thread_id( functions::tid( ) );
+   event->timestamp_ns( carpc::trace::utils::now_ns( ) );
+   event->thread_id( carpc::trace::utils::tid( ) );
    event->phase( ePhase::End );
    event->message( m_message );
 

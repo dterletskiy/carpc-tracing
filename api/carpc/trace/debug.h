@@ -1,10 +1,8 @@
 #pragma once
 
 #include <cstdio>
-#include <cstring>
-#include <string>
-#include <unistd.h>
-#include <sys/syscall.h>
+
+#include "carpc/trace/functions.h"
 
 
 
@@ -22,67 +20,40 @@
 
 
 
-   #define __PID__                                       \
-      ( static_cast< pid_t >( getpid( ) ) )
+   #define __CARPC_PID__ carpc::trace::utils::pid( )
 
-   #define __TID__                                       \
-      ( static_cast< pid_t >( syscall( SYS_gettid ) ) )
+   #define __CARPC_TID__ carpc::trace::utils::tid( )
 
-   #define __FILENAME__                                  \
-      ( strrchr( __FILE__, '/' )                         \
-         ? strrchr( __FILE__, '/' ) + 1                  \
-         : __FILE__ )
-
-   inline std::string get_namespace_class_func( const char* pretty_func )
-   {
-      std::string s( pretty_func );
-
-      // 1. Remove function arguments along with any spaces before '('
-      auto pos = s.find('(');
-      if( pos != std::string::npos )
-      {
-         // Move left to remove all spaces immediately before '('
-         while( pos > 0 && s[pos - 1] == ' ' )
-            --pos;
-
-         // Resize the string to remove the argument list and trailing spaces
-         s.resize( pos );
-      }
-
-      // 2. Remove the return type, leaving only namespace/class/function name
-      //    We find the last space, which separates the return type 
-      //    from the function name
-      auto space_pos = s.rfind(' ');
-      if( std::string::npos != space_pos )
-      {
-         // erase everything before and including the last space
-         s.erase( 0, space_pos + 1 ); 
-      }
-
-      // The resulting string now contains only 'namespace::class::function'
-      return s;
-   }
-
-   #define __NS_FUNCTION__                               \
-      get_namespace_class_func(                          \
+   #define __CARPC_FUNCTION__                            \
+      carpc::trace::utils::get_namespace_class_func(     \
          __PRETTY_FUNCTION__ ).c_str( )
 
+   #define __CARPC_LINE__ __LINE__
 
+   #define __CARPC_FILE__     \
+      carpc::trace::utils::get_filename_ptr( __FILE__ )
 
-   #define __CARPC_FUNCTION__ __NS_FUNCTION__
-   #define __CARPC_LINE__     __LINE__
-   #define __CARPC_FILE__     __FILENAME__
+   #define __CARPC_TRACE_DEBUG__(                        \
+         N_TID, PREFIX_TID,                              \
+         N_FILE, PREFIX_FILE,                            \
+         N_FUNC, PREFIX_FUNC,                            \
+         format, ...                                     \
+      )                                                  \
+         printf(                                         \
+               "[%*d]" "   "                             \
+               "[%-*s]" "   "                            \
+               "[%-*s]" "   | "                          \
+               format "\n",                              \
+               N_TID, PREFIX_TID,                        \
+               N_FILE, PREFIX_FILE,                      \
+               N_FUNC, PREFIX_FUNC,                      \
+               ##__VA_ARGS__                             \
+            );
+
 
    #define CARPC_TRACE_DEBUG( format, ... )              \
       do                                                 \
       {                                                  \
-         char __prefix_tid[ __N_TID__ + 1 ];             \
-         snprintf(                                       \
-               __prefix_tid, sizeof(__prefix_tid),       \
-               "%d",                                     \
-               __TID__                                   \
-            );                                           \
-                                                         \
          char __prefix_file[ __N_FILE__ + 1 ];           \
          snprintf(                                       \
                __prefix_file, sizeof(__prefix_file),     \
@@ -90,22 +61,11 @@
                __CARPC_FILE__, __CARPC_LINE__            \
             );                                           \
                                                          \
-         char __prefix_func[ __N_FUNC__ + 1 ];           \
-         snprintf(                                       \
-               __prefix_func, sizeof(__prefix_func),     \
-               "%s",                                     \
-               __CARPC_FUNCTION__                        \
-            );                                           \
-                                                         \
-         printf(                                         \
-               "[%*s]" "   "                             \
-               "[%-*s]" "   "                            \
-               "[%-*s]" "   | "                          \
-               format "\n",                              \
-               __N_TID__, __prefix_tid,                  \
+         __CARPC_TRACE_DEBUG__(                          \
+               __N_TID__, __CARPC_TID__,                 \
                __N_FILE__, __prefix_file,                \
-               __N_FUNC__, __prefix_func,                \
-               ##__VA_ARGS__                             \
+               __N_FUNC__, __CARPC_FUNCTION__,           \
+               format, ##__VA_ARGS__                     \
             );                                           \
       } while( 0 )
 

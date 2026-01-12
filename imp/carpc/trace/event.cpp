@@ -53,9 +53,9 @@ uint64_t Event::timestamp_ns( ) const
    return m_timestamp_ns;
 }
 
-void Event::timestamp_ns( uint64_t val )
+void Event::timestamp_ns( uint64_t value )
 {
-   m_timestamp_ns = val;
+   m_timestamp_ns = value;
 }
 
 uint64_t Event::thread_id( ) const
@@ -63,9 +63,9 @@ uint64_t Event::thread_id( ) const
    return m_thread_id;
 }
 
-void Event::thread_id( uint64_t val )
+void Event::thread_id( uint64_t value )
 {
-   m_thread_id = val;
+   m_thread_id = value;
 }
 
 ePhase Event::phase( ) const
@@ -73,9 +73,9 @@ ePhase Event::phase( ) const
    return m_phase;
 }
 
-void Event::phase( ePhase val )
+void Event::phase( ePhase value )
 {
-   m_phase = val;
+   m_phase = value;
 }
 
 eLevel Event::level( ) const
@@ -83,9 +83,9 @@ eLevel Event::level( ) const
    return m_level;
 }
 
-void Event::level( eLevel val )
+void Event::level( eLevel value )
 {
-   m_level = val;
+   m_level = value;
 }
 
 const char* Event::message( ) const
@@ -104,4 +104,34 @@ void Event::message( const char* fmt, ... )
 void Event::message( const char* fmt, va_list args )
 {
    const int size = std::vsnprintf( m_message, sizeof(m_message), fmt, args );
+}
+
+const char* Event::file( ) const
+{
+   return m_file;
+}
+
+void Event::file( const char* value )
+{
+   m_file = value;
+}
+
+uint64_t Event::line( ) const
+{
+   return m_line;
+}
+
+void Event::line( uint64_t value )
+{
+   m_line = value;
+}
+
+const char* Event::function( ) const
+{
+   return m_function;
+}
+
+void Event::function( const char* value )
+{
+   m_function = value;
 }

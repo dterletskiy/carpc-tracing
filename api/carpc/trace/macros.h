@@ -8,30 +8,54 @@
 
 #if CARPC_TRACE_ENABLE
 
-   #define CARPC_TRACE_SCOPE( name ) \
-      carpc::trace::Scope _carpc_trace_scope_##__LINE__( name )
+   #define CARPC_TRACE_SCOPE( msg ) \
+      carpc::trace::Scope _carpc_trace_scope_##__LINE__( msg )
 
-   #define CARPC_TRACE_LOG_TRACE( name, ... ) \
-      carpc::trace::Log::trace( name, ##__VA_ARGS__ )
+   #define CARPC_TRACE_LOG_TRACE( fmt, ... )    \
+      carpc::trace::Log::log(                   \
+            carpc::trace::eLevel::Trace,        \
+            __FILE__, __LINE__, __FUNCTION__,   \
+            fmt, ##__VA_ARGS__                  \
+         )
 
-   #define CARPC_TRACE_LOG_DEBUG( name, ... ) \
-      carpc::trace::Log::debug( name, ##__VA_ARGS__ )
+   #define CARPC_TRACE_LOG_DEBUG( fmt, ... )    \
+      carpc::trace::Log::log(                   \
+            carpc::trace::eLevel::Debug,        \
+            __FILE__, __LINE__, __FUNCTION__,   \
+            fmt, ##__VA_ARGS__                  \
+         )
 
-   #define CARPC_TRACE_LOG_INFO( name, ... ) \
-      carpc::trace::Log::info( name, ##__VA_ARGS__ )
+   #define CARPC_TRACE_LOG_INFO( fmt, ... )     \
+      carpc::trace::Log::log(                   \
+            carpc::trace::eLevel::Info,         \
+            __FILE__, __LINE__, __FUNCTION__,   \
+            fmt, ##__VA_ARGS__                  \
+         )
 
-   #define CARPC_TRACE_LOG_WARNING( name, ... ) \
-      carpc::trace::Log::warning( name, ##__VA_ARGS__ )
+   #define CARPC_TRACE_LOG_WARNING( fmt, ... )  \
+      carpc::trace::Log::log(                   \
+            carpc::trace::eLevel::Warn,         \
+            __FILE__, __LINE__, __FUNCTION__,   \
+            fmt, ##__VA_ARGS__                  \
+         )
 
-   #define CARPC_TRACE_LOG_ERROR( name, ... ) \
-      carpc::trace::Log::error( name, ##__VA_ARGS__ )
+   #define CARPC_TRACE_LOG_ERROR( fmt, ... )    \
+      carpc::trace::Log::log(                   \
+            carpc::trace::eLevel::Error,        \
+            __FILE__, __LINE__, __FUNCTION__,   \
+            fmt, ##__VA_ARGS__                  \
+         )
 
-   #define CARPC_TRACE_LOG_CRITICAL( name, ... ) \
-      carpc::trace::Log::critical( name, ##__VA_ARGS__ )
+   #define CARPC_TRACE_LOG_CRITICAL( fmt, ... ) \
+      carpc::trace::Log::log(                   \
+            carpc::trace::eLevel::Critical,     \
+            __FILE__, __LINE__, __FUNCTION__,   \
+            fmt, ##__VA_ARGS__                  \
+         )
 
 #else
 
-   #define CARPC_TRACE_SCOPE( name )
-   #define CARPC_TRACE_LOG_TRACE( name )
+   #define CARPC_TRACE_SCOPE( fmt )
+   #define CARPC_TRACE_LOG_TRACE( fmt )
 
 #endif

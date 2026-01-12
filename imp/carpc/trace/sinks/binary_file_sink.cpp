@@ -52,7 +52,7 @@ BinaryFileSink::BinaryFileSink( const char* path )
 {
    m_fd = ::open( path, O_CREAT | O_TRUNC | O_WRONLY, 0644 );
 
-   m_start_time_ns = functions::now_ns( );
+   m_start_time_ns = carpc::trace::utils::now_ns( );
 
    FileHeader header
    {

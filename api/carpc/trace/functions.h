@@ -1,9 +1,10 @@
 #include <cstddef>
 #include <cstdint>
+#include <string>
 
 
 
-namespace carpc::functions {
+namespace carpc::trace::utils {
 
    /**
     * @brief Safely copies a C-string into a destination buffer with truncation.
@@ -25,7 +26,10 @@ namespace carpc::functions {
     */
    size_t strcpy( char *dst, size_t dst_size, const char *src );
 
+   uint32_t pid( );
    uint32_t tid( );
    uint64_t now_ns( );
 
+   const char* get_filename_ptr( const char* path );
+   std::string get_namespace_class_func( const char* pretty_func );
 }
