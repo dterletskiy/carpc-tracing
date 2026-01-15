@@ -20,12 +20,12 @@ using namespace carpc::trace;
 
 
 
-ISink*             s_sink    = nullptr;
+ISink*                  s_sink    = nullptr;
 std::atomic< bool >     s_running = false;
 std::thread             s_thread;
 os::Futex               s_futex;
-EventPool          s_trace_event_pool;
-eLevel             s_min_level;
+EventPool               s_trace_event_pool;
+eLevel                  s_min_level;
 
 
 
