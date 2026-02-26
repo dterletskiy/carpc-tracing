@@ -6,7 +6,7 @@
 
 
 
-#if CARPC_TRACE_ENABLE
+#ifdef CARPC_BUILD_TRACE_ENABLED
 
    #define CARPC_TRACE_SCOPE( msg ) \
       carpc::trace::Scope _carpc_trace_scope_##__LINE__( msg )
